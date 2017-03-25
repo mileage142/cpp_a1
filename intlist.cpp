@@ -1,5 +1,17 @@
+//list converted to use std::string (not int)
+#include <iostream> //just for testing purposes
 #include "intlist.h"
 using ll=linked_list;
+//main inserted for compile reasons
+int main(int argv, char** argc)
+{
+    std::cout <<  "list test compiled, all functions to follow" <<  std::endl;
+    ll mylist;
+    mylist.add("data");
+    mylist.add("other_data");
+    mylist.print_list();
+    return 0;
+}
 void ll::node::set_next(std::unique_ptr<ll::node>&& newnext)
 {
     next = std::move(newnext);
@@ -15,12 +27,12 @@ std::unique_ptr<ll::node>& ll::node::get_next_ptr(void)
     return next;
 }
 
-int ll::node::get_data(void)
+std::string ll::node::get_data(void)
 {
     return data;
 }
 
-bool ll::add(int data)
+bool ll::add(std::string data)
 {
     node * current;
     node * prev = nullptr;
@@ -55,7 +67,19 @@ bool ll::add(int data)
     return true;
 }
 
-bool ll::search(int needle)
+
+bool ll::search(std::string needle)
 {
-    return false;
+   return false;
+}
+
+bool ll::print_list()
+{
+     node * current;
+     current = head.get();
+     std::cout << current->get_data() << std::endl;
+     current = current->get_next();
+     std::cout << current->get_data() << std::endl;
+
+     return true;
 }
