@@ -3,7 +3,7 @@
 #include "strlist.h"
 using ll=linked_list;
 //main inserted for compile reasons
-int main(int argv, char** argc)
+/*int main(int argv, char** argc)
 {
     ll mylist;
     mylist.add("thing");
@@ -13,7 +13,7 @@ int main(int argv, char** argc)
     mylist.print_list();
     mylist.search("thing");
     return 0;
-}
+}*/
 void ll::node::set_next(std::unique_ptr<ll::node>&& newnext)
 {
     next = std::move(newnext);
@@ -50,11 +50,12 @@ bool ll::add(std::string data)
     current = head.get();
     
     //this is an alpha sort function    
-    while(current && current->data < data)
+/*    while(current && current->data < data)
     {
         prev = current;
         current = current->get_next();
     }
+*/    
     if(!prev)
     {
         newnode->set_next(std::move(head));

@@ -41,8 +41,12 @@ bool options::choose_option(int ac, char** av)
         if(vm["datastructure"].as< std::string>() == "custom_list")
         {
             user list_user;
+            //ll user_list;
             std::cout << "confirming custom_list" << std::endl;
             list_user.open_dict(vm["dictionary"].as< std::string>());
+            list_user.open_text(vm["textfile"].as< std::string>());
+            //list_user.process_text();
+            //COME BACK TO THIS!!!!
             return true;
         }
         if(vm["datastructure"].as< std::string>() == "custom_tree")
