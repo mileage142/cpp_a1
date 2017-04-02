@@ -26,12 +26,12 @@ bool options::choose_option(int ac, char** av)
     
     po::options_description desc("allowed options");
     desc.add_options()
-    ("datastructure,s", po::value< std::string >(), "Select data structure to use")
+    ("datastructure,s", po::value< std::string >(), 
+    "Select data structure to use")
     ("dictionary,d", po::value<std::string>(), "Select dictionary file")
     ("textfile,t", po::value<std::string>(), "Select text file")
     ("outputfile,o", po::value<std::string>(), "Choose output filename")
     ;
-    po::variables_map vm;
     po::store(po::parse_command_line(ac, av, desc), vm);
     po::notify(vm);
 
@@ -43,9 +43,12 @@ bool options::choose_option(int ac, char** av)
             user list_user;
             //ll user_list;
             std::cout << "confirming custom_list" << std::endl;
-            list_user.open_dict(vm["dictionary"].as< std::string>());
-            list_user.open_text(vm["textfile"].as< std::string>());
-            //list_user.process_text();
+            //list_user.open_dict(vm["dictionary"].as< std::string>());
+            //list_user.open_text(vm["textfile"].as< std::string>());
+            list_user.process_text(
+            list_user.open_dict(vm["dictionary"].as< std::string>()),
+            list_user.open_text(vm["textfile"].as< std::string>())
+            );
             //COME BACK TO THIS!!!!
             return true;
         }

@@ -15,23 +15,23 @@ using ll=linked_list;
 class user
 {
 //private:
-    ll dict;
-    ll text;
+    ll dict_list;
+    ll text_list;
     char output;
     std::string option;
     std::map <char, int> count;
 
     public:
-    user() : dict(), text(), count() {}
-    user(std::string input_dict, std::string input_text) : dict(), text(), count() {}
+    user() : dict_list(), text_list(), count() {}
+    user(std::string input_dict, std::string input_text) : dict_list(), text_list(), count() {}
     
 
     //bool choose_option(void);
     void get_list(ll);
     void start_list(void);
-    bool open_dict(std::string);
-    bool open_text(std::string);
-    bool process_text(void);
+    ll open_dict(std::string);
+    ll open_text(std::string);
+    bool process_text(ll, ll);
     bool output_to_file(void);
     //std::map get_count(void);
 };
