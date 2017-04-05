@@ -61,7 +61,8 @@ ll user::open_text(std::string text)
 bool user::process_text(ll dict_list, ll text_list)
 {
     int line_count = 1;
-    std::cout << "process text!!!" << std::endl;
+    //std::cout << "process text!!!" << std::endl;
+    std::map <std::string, int> word_count;
     //text_list.print_list();
     //text_list.list_start();
     while(text_list.get_line(line_count) != "ENDOFTEXT")
@@ -70,19 +71,48 @@ bool user::process_text(ll dict_list, ll text_list)
         for(boost::tokenizer<>::iterator beg=tok.begin();
         beg!=tok.end();++beg)
         {
-            std::cout << *beg << std::endl;
+            if(dict_list.search(*beg))
+            {
+                // std::cout << *beg << std::endl;
+                if(word_count[*beg])
+                {
+                    word_count[*beg]++;
+                }
+                else
+                {
+                    word_count[*beg] = 1;
+                }    
+            }
         }
         line_count++;
     }    
-//    text_list.get_next();
-    std::cout << "text before - dict after" << std::endl;
-    //text_list.print_list();
+    this->count = word_count;
     return true;
 }
-bool user::output_to_file(void)
+bool user::output_to_file(std::string output_file)
 {
     //export contents of count map to file
+    std::ofstream output;
+    output.open (output_file);
+    if(output.is_open())
+    {
+        for(std::map<std::string, int>::iterator it=this->count.begin(); 
+        it!=this->count.end(); ++it)
+        {
+            output << it->first << " : " << it->second << std::endl;
+
+        }
+   
+       
+       output.close();
+        
+    }
+    else
+    {    
+        std::cout << "Unable to open" << output_file << std::endl;
+    }
     return true;
+
 }
 /*
 std::map get_count(void)

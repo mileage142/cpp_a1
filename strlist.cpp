@@ -79,7 +79,7 @@ bool ll::search(std::string needle)
 {
     node * current;
     current = head.get();
-    int word_count = 0;
+    //int word_count = 0;
 
     while(current != nullptr)
     {
@@ -93,8 +93,8 @@ bool ll::search(std::string needle)
             current = current->get_next();
         }
     }
-    std::cout << "occurences of " << needle;
-    std::cout << ": " << word_count << std::endl;
+    //std::cout << "occurences of " << needle;
+    //std::cout << ": " << word_count << std::endl;
     return false;
 }
 
@@ -122,7 +122,7 @@ std::string ll::get_line(int line_count)
     node * current;
     std::string line;
     int i = line_count;
-    std::cout << "get_line" << i << std::endl;
+    //std::cout << "get_line" << i << std::endl;
     //std::map<std::string, int> count;
     current = head.get();
     

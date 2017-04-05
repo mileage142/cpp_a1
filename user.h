@@ -14,12 +14,12 @@ using ll=linked_list;
 
 class user
 {
-//private:
+    private:
     ll dict_list;
     ll text_list;
     char output;
     std::string option;
-    std::map <char, int> count;
+    std::map <std::string, int> count;
 
     public:
     user() : dict_list(), text_list(), count() {}
@@ -32,6 +32,6 @@ class user
     ll open_dict(std::string);
     ll open_text(std::string);
     bool process_text(ll, ll);
-    bool output_to_file(void);
+    bool output_to_file(std::string);
     //std::map get_count(void);
 };
