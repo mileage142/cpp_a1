@@ -1,7 +1,11 @@
 //list converted to use std::string (not int)
 
 #include <memory>
-
+#include <boost/tokenizer.hpp>
+#include <iostream>
+#include<string>
+#include <map>
+//#include <string>
 
 class linked_list
 {
@@ -29,4 +33,7 @@ class linked_list
     bool add(std::string);
     bool search(std::string);
     bool print_list(void);
+    std::string get_line(int);
+    bool list_start(void);
+   // ll::node*  get_next_node(void);
 };

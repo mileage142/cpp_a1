@@ -85,9 +85,8 @@ bool ll::search(std::string needle)
     {
         if(current->get_data() == needle)
         {    
-            word_count++;
             current = current->get_next();
-      
+            return true;      
         }
         else
         {
@@ -96,13 +95,15 @@ bool ll::search(std::string needle)
     }
     std::cout << "occurences of " << needle;
     std::cout << ": " << word_count << std::endl;
-    return true;
+    return false;
 }
 
 bool ll::print_list()
 {
      node * current;
      current = head.get();
+     
+     std::cout << "print_list" << std::endl;
 
      while(current != nullptr)
      {
@@ -112,3 +113,53 @@ bool ll::print_list()
 
      return true;
 }
+
+
+std::string ll::get_line(int line_count)
+//Terrible and slow implementation but works
+//contains a lot of commented out debug strings
+{
+    node * current;
+    std::string line;
+    int i = line_count;
+    std::cout << "get_line" << i << std::endl;
+    //std::map<std::string, int> count;
+    current = head.get();
+    
+    while(i > 0)
+    {
+    // std::cout << current << std::endl;
+    // std::cout << "i = " << i << std::endl;
+        if(current == nullptr)
+        {
+            line = "ENDOFTEXT";
+            return line;
+        }
+        else           
+        {
+            line = current->get_data();
+            current = current->get_next();
+            i--;
+        }
+        //std::cout << "if" << std::endl;
+     } 
+     //std::cout << "post i " << i << std::endl;
+     return line; 
+}
+
+
+bool ll::list_start(void)
+//DEPRECIATED - don't think this is needed anymore
+{
+    ll::node * current;
+    current = head.get();
+    std::cout << current << std::endl;
+    return true;
+}
+/*
+ll::node* ll::get_next_node(void)
+{
+   node * current; 
+    return current->get_next;
+}
+*/

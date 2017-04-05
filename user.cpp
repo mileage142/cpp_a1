@@ -58,14 +58,25 @@ ll user::open_text(std::string text)
    return text_list;
 }
 
-bool user::process_text(ll text_list, ll dict_list)
+bool user::process_text(ll dict_list, ll text_list)
 {
-    //list_user.open_dict(vm["dictionary"].as< std::string>());
+    int line_count = 1;
     std::cout << "process text!!!" << std::endl;
-    text_list.print_list();
-
+    //text_list.print_list();
+    //text_list.list_start();
+    while(text_list.get_line(line_count) != "ENDOFTEXT")
+    {
+        boost::tokenizer<> tok(text_list.get_line(line_count));
+        for(boost::tokenizer<>::iterator beg=tok.begin();
+        beg!=tok.end();++beg)
+        {
+            std::cout << *beg << std::endl;
+        }
+        line_count++;
+    }    
+//    text_list.get_next();
     std::cout << "text before - dict after" << std::endl;
-    dict_list.print_list();
+    //text_list.print_list();
     return true;
 }
 bool user::output_to_file(void)
