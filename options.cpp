@@ -41,29 +41,39 @@ bool options::choose_option(int ac, char** av)
         if(vm["datastructure"].as< std::string>() == "custom_list")
         {
             user list_user;
-            //ll user_list;
+            //options->dict = (vm["dictionary"].as< std::string>(),
+            //options->text = (vm["textfile"].as< std::string>();            
+
             std::cout << "confirming custom_list" << std::endl;
             list_user.process_text(
-            list_user.open_dict(vm["dictionary"].as< std::string>()),
-            list_user.open_text(vm["textfile"].as< std::string>())
+            list_user.open_clist_dict(vm["dictionary"].as< std::string>()),
+            list_user.open_clist_text(vm["textfile"].as< std::string>())
             );
             list_user.output_to_file(vm["outputfile"].as< std::string>());
             //COME BACK TO THIS!!!!
             return true;
         }
-        if(vm["datastructure"].as< std::string>() == "custom_tree")
+        if(vm["datastructure"].as< std::string>() == "vector")
         {
+            user vector_user;
+
+            std::cout << "confirming vector" << std::endl;
+            vector_user.process_text(
+            vector_user.open_vector_dict(vm["dictionary"].as< std::string>()),
+            vector_user.open_vector_text(vm["textfile"].as< std::string>())
+            );
+            vector_user.output_to_file(vm["outputfile"].as< std::string>());           
             return true;
         }
         if(vm["datastructure"].as< std::string>() == "list")
         {
             return true;
         }
-        if(vm["datastructure"].as< std::string>() == "vector")
+        if(vm["datastructure"].as< std::string>() == "set")
         {
             return true;
         }
-        if(vm["datastructure"].as< std::string>() == "set")
+        if(vm["datastructure"].as< std::string>() == "custom_tree")
         {
             return true;
         }
