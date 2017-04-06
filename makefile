@@ -20,4 +20,4 @@ options.o: options.cpp options.h
 		g++ -c -Wall -pedantic -std=c++14  options.cpp
 
 clean:
-		rm -rf *o test_datastructures
+		rm -rf *o test_datastructures *out.txt
