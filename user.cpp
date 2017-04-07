@@ -58,6 +58,54 @@ std::vector<std::string> user::open_vector_dict(std::string dict)
 }
 
 
+std::list<std::string> user::open_list_dict(std::string dict)
+{   
+    std::list<std::string> dict_list;
+    std::string word;
+    std::cout << "test open_list_dict" << std::endl;
+    std::ifstream dict_file;
+    dict_file.open (dict);
+    if(dict_file.is_open())
+    {
+        while(getline(dict_file, word))
+        {
+            dict_list.push_back(word);
+        }
+        dict_file.close();
+        //funtion to test dict ingestion
+        //dict_clist.print_list();
+    }
+    else
+    {    
+        std::cout << "Unable to open" << dict << std::endl;
+    }
+    return dict_list;
+}
+
+std::set<std::string> user::open_set_dict(std::string dict)
+{   
+    std::set<std::string> dict_set;
+    std::string word;
+    std::cout << "test open_set_dict" << std::endl;
+    std::ifstream dict_file;
+    dict_file.open (dict);
+    if(dict_file.is_open())
+    {
+        while(getline(dict_file, word))
+        {
+            dict_set.insert(word);
+        }
+        dict_file.close();
+        //funtion to test dict ingestion
+        //dict_cset.print_set();
+    }
+    else
+    {    
+        std::cout << "Unable to open" << dict << std::endl;
+    }
+    return dict_set;
+}
+
 
 ll user::open_clist_text(std::string text)
 {
@@ -106,6 +154,55 @@ std::vector<std::string> user::open_vector_text(std::string text)
     }
    return text_vector;
 }
+
+std::list<std::string> user::open_list_text(std::string text)
+{
+    std::list<std::string> text_list;
+    std::string line;
+    std::cout << "test open_list_text" << std::endl;
+    std::ifstream text_file;
+    text_file.open(text);
+    if(text_file.is_open())
+    {
+        while(getline(text_file, line))
+        {
+            text_list.push_back(line);
+        }
+        text_file.close();
+        //function to test text ingestion
+      //  text_clist.print_list();
+    }
+    else
+    {    
+        std::cout << "Unable to open" << text << std::endl;
+    }
+   return text_list;
+}
+
+std::set<std::string> user::open_set_text(std::string text)
+{
+    std::set<std::string> text_set;
+    std::string line;
+    std::cout << "test open_set_text" << std::endl;
+    std::ifstream text_file;
+    text_file.open(text);
+    if(text_file.is_open())
+    {
+        while(getline(text_file, line))
+        {
+            text_set.insert(line);
+        }
+        text_file.close();
+        //function to test text ingestion
+      //  text_cset.print_set();
+    }
+    else
+    {    
+        std::cout << "Unable to open" << text << std::endl;
+    }
+   return text_set;
+}
+
 bool user::process_text(ll dict_clist, ll text_clist)
 {
     int line_count = 1;
@@ -173,6 +270,108 @@ std::vector<std::string> text_vector)
         }
         line_count++;
     }    
+    this->count = word_count;
+    return true;
+}
+
+//This function processes 2 std::lists
+//take each line from text_list in order, tokenizes it
+//and compares it with the entire dict_list, scores word 
+//counts and stores them in a std::map
+bool user::process_text(std::list<std::string> dict_list,
+std::list<std::string> text_list)
+{
+    int line_count = 1;
+    std::cout << "process text!!!" << std::endl;
+    std::map <std::string, int> word_count;
+    //text_clist.print_list();
+    //text_clist.list_start();
+    //while(text_list[line_count] < text_list[text_list.size()])
+    while(line_count < text_list.size())
+    {
+        //The two loops following are a convoluted and expensive way
+        //to extract the poistion of the line in the list
+        int line_num = 1;
+        for(std::list<std::string>::iterator ln =
+        text_list.begin(); ln != text_list.end(); ++ln, ++line_num)
+        {
+            if(line_num == line_count)
+            {
+                std::string line = *ln;
+                boost::tokenizer<> tok(line);
+                for(boost::tokenizer<>::iterator beg=tok.begin();
+                beg!=tok.end();++beg)
+                {       
+                    for(std::list<std::string>::iterator it = 
+                    dict_list.begin(); it != dict_list.end(); ++it)
+                    {    
+                        if(*it ==  *beg)
+                        {
+                            if(word_count[*beg])
+                            {
+                                word_count[*beg]++;
+                            }
+                            else
+                            {
+                                word_count[*beg] = 1;
+                            }    
+                        }
+                    }   
+                }
+             }
+        }     
+        line_count++;
+    }    
+    this->count = word_count;
+    return true;
+}
+
+//This function processes 2 std::sets
+//take each line from text_set in order, tokenizes it
+//and compares it with the entire dict_set, scores word 
+//counts and stores them in a std::map
+bool user::process_text(std::set<std::string> dict_set,
+std::set<std::string> text_set)
+{
+    int line_count = 1;
+    std::cout << "process text!!!" << std::endl;
+    std::map <std::string, int> word_count;
+    //text_cset.print_set();
+    //text_cset.set_start();
+    //while(text_set[line_count] < text_set[text_set.size()])
+    while(line_count < text_set.size())
+    {
+        int line_num = 1;
+        for(std::set<std::string>::iterator ln =
+        text_set.begin(); ln != text_set.end(); ++ln, ++line_num)
+        {
+           if(line_num == line_count)
+           {
+                std::string line = *ln;
+                boost::tokenizer<> tok(line);
+                for(boost::tokenizer<>::iterator beg=tok.begin();
+                beg!=tok.end();++beg)
+                {     
+                    for(std::set<std::string>::iterator it = 
+                    dict_set.begin(); it != dict_set.end(); ++it)
+                    {    
+                        if(*it ==  *beg)
+                        {
+                            if(word_count[*beg])
+                            {
+                                word_count[*beg]++;
+                            }
+                            else
+                            {
+                                word_count[*beg] = 1;
+                            }    
+                        }
+                    }   
+                }
+            }
+        }     
+        line_count++;
+    }   
     this->count = word_count;
     return true;
 }

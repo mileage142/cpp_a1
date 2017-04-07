@@ -66,15 +66,40 @@ bool options::choose_option(int ac, char** av)
             return true;
         }
         if(vm["datastructure"].as< std::string>() == "list")
-        {
+        { 
+            user list_user;
+
+            std::cout << "confirming list" << std::endl;
+            list_user.process_text(
+            list_user.open_list_dict(vm["dictionary"].as< std::string>()),
+            list_user.open_list_text(vm["textfile"].as< std::string>())
+            );
+            list_user.output_to_file(vm["outputfile"].as< std::string>());           
             return true;
         }
         if(vm["datastructure"].as< std::string>() == "set")
         {
+            user set_user;
+
+            std::cout << "confirming set" << std::endl;
+            set_user.process_text(
+            set_user.open_set_dict(vm["dictionary"].as< std::string>()),
+            set_user.open_set_text(vm["textfile"].as< std::string>())
+            );
+            set_user.output_to_file(vm["outputfile"].as< std::string>());           
             return true;
         }
         if(vm["datastructure"].as< std::string>() == "custom_tree")
         {
+            /*user ctree_user;
+
+            std::cout << "confirming ctree" << std::endl;
+            ctree_user.process_text(
+            ctree_user.open_ctree_dict(vm["dictionary"].as< std::string>()),
+            ctree_user.open_ctree_text(vm["textfile"].as< std::string>())
+            );
+            ctree_user.output_to_file(vm["outputfile"].as< std::string>());           
+ */
             return true;
         }
     

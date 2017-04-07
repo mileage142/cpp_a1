@@ -1,75 +1,110 @@
 /*************************************************************
  * This file is converted from intlist.cpp which was an example
- * by Paul Miller for the COSC2140 course at RMIT
+ * by Paul Mictreeer for the COSC2140 course at RMIT
 
 */
 //list converted to use std::string (not int)
 //#include <iostream> //just for testing purposes
-#include "strlist.h"
-using ll=linked_list;
+#include "ctree.h"
 
-void ll::node::set_next(std::unique_ptr<ll::node>&& newnext)
+void ctree::node::set_right(std::unique_ptr<ctree::node>&& newright)
 {
-    next = std::move(newnext);
+    right = std::move(newright);
+}
+ctree::node * ctree::node::get_right(void)
+{
+    return right.get();
+}
+std::unique_ptr<ctree::node>& ctree::node::get_right_ptr(void)
+{
+    return right;
 }
 
-ll::node * ll::node::get_next(void)
+void ctree::node::set_left(std::unique_ptr<ctree::node>&& newleft)
 {
-    return next.get();
+    left = std::move(newleft);
+}
+ctree::node * ctree::node::get_left(void)
+{
+    return left.get();
+}
+std::unique_ptr<ctree::node>& ctree::node::get_left_ptr(void)
+{
+    return left;
 }
 
-std::unique_ptr<ll::node>& ll::node::get_next_ptr(void)
-{
-    return next;
-}
 
-std::string ll::node::get_data(void)
+std::string ctree::node::get_data(void)
 {
     return data;
 }
 
-bool ll::add(std::string data)
+bool ctree::add(std::string data)
 {
     node * current;
     node * prev = nullptr;
-    std::unique_ptr<ll::node> newnode = std::make_unique<ll::node>(data);
+    std::unique_ptr<ctree::node> newnode = std::make_unique<ctree::node>(data);
     if(head == nullptr)
     {
         head = std::make_unique<node>(data);
-        ++size;
+        ctree->add_data(data);
         return true;
     }
+}
 
+bool ctree::add_data(std::string data)
+{
     //get the pointer held by the unique_ptr
+    node * current;
+    node * prev = nullptr;
+    
     current = head.get();
     
     //this is an alpha sort function    
-    while(current && current->data < data)
+    if(current && current->data < data)
     {
-        prev = current;
-        current = current->get_next();
+        if(current->left)
+        {
+            return current->left->add_data(data)
+        } 
+        else
+        {
+            newleft->set_left(std::move(head));
+            if(current->left)
+            {    
+                return true;
+            }
+            return false;
+        }
+
+       // prev = current;
+       // current = current->get_right();
     }
     
-    if(!prev)
-    {
-        newnode->set_next(std::move(head));
-        head = std::move(newnode);
-    }
-    else if(!current)
-    {
-        prev->set_next(std::move(newnode));
-    }
     else
     {
-        newnode->set_next(std::move(prev->get_next_ptr()));
-        prev->set_next(std::move(newnode));
+        if(current->right)
+        {
+            return current->right->add_data(data)
+        } 
+        else
+        {
+            newleft->set_right(std::move(head));
+            if(current->right)
+            {    
+                return true;
+            }
+            return false;
+        }
+
+       // prev = current;
+       // current = current->get_right();
     }
-    ++size;
-    return true;
-}
+} 
+ 
 
 
-bool ll::search(std::string needle)
+bool ctree::search(std::string needle)
 {
     node * current;
     current = head.get();
@@ -79,12 +114,12 @@ bool ll::search(std::string needle)
     {
         if(current->get_data() == needle)
         {    
-            current = current->get_next();
+            current = current->get_right();
             return true;      
         }
         else
         {
-            current = current->get_next();
+            current = current->get_right();
         }
     }
     //std::cout << "occurences of " << needle;
@@ -92,7 +127,7 @@ bool ll::search(std::string needle)
     return false;
 }
 
-bool ll::print_list()
+bool ctree::print_list()
 {
      node * current;
      current = head.get();
@@ -102,14 +137,14 @@ bool ll::print_list()
      while(current != nullptr)
      {
         std::cout << current->get_data() << std::endl;
-        current = current->get_next();
+        current = current->get_right();
      }
 
      return true;
 }
 
 
-std::string ll::get_line(int line_count)
+std::string ctree::get_line(int line_count)
 //Terrible and slow implementation but works
 //contains a lot of commented out debug strings
 {
@@ -132,7 +167,7 @@ std::string ll::get_line(int line_count)
         else           
         {
             line = current->get_data();
-            current = current->get_next();
+            current = current->get_right();
             i--;
         }
         //std::cout << "if" << std::endl;
@@ -141,19 +176,20 @@ std::string ll::get_line(int line_count)
      return line; 
 }
 
-
-bool ll::list_start(void)
+/*
+bool ctree::list_start(void)
 //DEPRECIATED - don't think this is needed anymore
 {
-    ll::node * current;
+    ctree::node * current;
     current = head.get();
     std::cout << current << std::endl;
     return true;
 }
+*/
 /*
-ll::node* ll::get_next_node(void)
+ctree::node* ctree::get_right_node(void)
 {
    node * current; 
-    return current->get_next;
+    return current->get_right;
 }
 */

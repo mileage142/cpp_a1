@@ -7,8 +7,11 @@
 #
 
 
-all: strlist.o user.o options.o 
+all: ctree.o strlist.o user.o options.o 
 		g++ -o test_datastructures options.o user.o strlist.o -lboost_program_options -g
+
+ctree.o: ctree.cpp ctree.h
+		g++ -c -Wall -pedantic -std=c++14 ctree.cpp
 
 strlist.o: strlist.cpp strlist.h
 		g++ -c -Wall -pedantic -std=c++14 strlist.cpp
