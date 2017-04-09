@@ -1,11 +1,12 @@
-//options.cpp
-//
-//Takes in command line arguments and parses them, also contains main
-//Author:  Miles Thomas s3494949
+/**************************************************************************
+*options.cpp COSC2140  Assingment 1   Miles Thomas s3494949
+*
+*Takes in command line arguments and parses them, also contains main
+*
+**************************************************************************/
 
-//#include <boost/program_options.hpp>
-#include <string>
-#include <iostream>
+//#include <string>
+//#include <iostream>
 #include "options.h"
 
 namespace po = boost::program_options;
@@ -23,7 +24,7 @@ int main(int ac, char** av)
 
 bool options::choose_option(int ac, char** av)
 {
-    
+    //setup options for command line   
     po::options_description desc("allowed options");
     desc.add_options()
     ("datastructure,s", po::value< std::string >(), 
@@ -41,16 +42,15 @@ bool options::choose_option(int ac, char** av)
         if(vm["datastructure"].as< std::string>() == "custom_list")
         {
             user list_user;
-            //options->dict = (vm["dictionary"].as< std::string>(),
-            //options->text = (vm["textfile"].as< std::string>();            
-
+            //various implementations for all the data structures
             std::cout << "confirming custom_list" << std::endl;
             list_user.process_text(
-            list_user.open_clist_dict(vm["dictionary"].as< std::string>()),
-            list_user.open_clist_text(vm["textfile"].as< std::string>())
-            );
-            list_user.output_to_file(vm["outputfile"].as< std::string>());
-            //COME BACK TO THIS!!!!
+            list_user.open_clist_dict(vm["dictionary"].
+            as< std::string>()),
+            list_user.open_clist_text(vm["textfile"].
+            as< std::string>()));
+            list_user.output_to_file(vm["outputfile"].
+            as< std::string>());
             return true;
         }
         if(vm["datastructure"].as< std::string>() == "vector")
@@ -59,10 +59,12 @@ bool options::choose_option(int ac, char** av)
 
             std::cout << "confirming vector" << std::endl;
             vector_user.process_text(
-            vector_user.open_vector_dict(vm["dictionary"].as< std::string>()),
-            vector_user.open_vector_text(vm["textfile"].as< std::string>())
-            );
-            vector_user.output_to_file(vm["outputfile"].as< std::string>());           
+            vector_user.open_vector_dict(vm["dictionary"].
+            as< std::string>()),
+            vector_user.open_vector_text(vm["textfile"].
+            as< std::string>()));
+            vector_user.output_to_file(vm["outputfile"].
+            as< std::string>());           
             return true;
         }
         if(vm["datastructure"].as< std::string>() == "list")
@@ -71,10 +73,12 @@ bool options::choose_option(int ac, char** av)
 
             std::cout << "confirming list" << std::endl;
             list_user.process_text(
-            list_user.open_list_dict(vm["dictionary"].as< std::string>()),
-            list_user.open_list_text(vm["textfile"].as< std::string>())
-            );
-            list_user.output_to_file(vm["outputfile"].as< std::string>());           
+            list_user.open_list_dict(vm["dictionary"].
+            as< std::string>()),
+            list_user.open_list_text(vm["textfile"].
+            as< std::string>()));
+            list_user.output_to_file(vm["outputfile"].
+            as< std::string>());           
             return true;
         }
         if(vm["datastructure"].as< std::string>() == "set")
@@ -83,10 +87,12 @@ bool options::choose_option(int ac, char** av)
 
             std::cout << "confirming set" << std::endl;
             set_user.process_text(
-            set_user.open_set_dict(vm["dictionary"].as< std::string>()),
-            set_user.open_set_text(vm["textfile"].as< std::string>())
-            );
-            set_user.output_to_file(vm["outputfile"].as< std::string>());           
+            set_user.open_set_dict(vm["dictionary"].
+            as< std::string>()),
+            set_user.open_set_text(vm["textfile"].
+            as< std::string>()));
+            set_user.output_to_file(vm["outputfile"].
+            as< std::string>());           
             return true;
         }
         if(vm["datastructure"].as< std::string>() == "custom_tree")
@@ -95,14 +101,15 @@ bool options::choose_option(int ac, char** av)
 
             std::cout << "confirming ctree" << std::endl;
             ctree_user.process_text(
-            ctree_user.open_ctree_dict(vm["dictionary"].as< std::string>()),
-            ctree_user.open_ctree_text(vm["textfile"].as< std::string>())
-            );
-            ctree_user.output_to_file(vm["outputfile"].as< std::string>());           
+            ctree_user.open_ctree_dict(vm["dictionary"].
+            as< std::string>()),
+            ctree_user.open_ctree_text(vm["textfile"].
+            as< std::string>()));
+            ctree_user.output_to_file(vm["outputfile"].
+            as< std::string>());           
  
             return true;
         }
-    
     }
     else
     {

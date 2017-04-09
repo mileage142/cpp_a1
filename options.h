@@ -1,3 +1,11 @@
+/**************************************************************************
+*options.h COSC2140  Assingment 1   Miles Thomas s3494949
+*
+*This is the driver module, contains main
+*it also implements all command line input
+*
+*************************************************************************/
+
 #include <iostream>
 #include <string>
 #include <boost/program_options.hpp>

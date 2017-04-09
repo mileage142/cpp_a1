@@ -1,13 +1,16 @@
 /*************************************************************
- * This file is converted from intlist.cpp which was an example
- * by Paul Mictreeer for the COSC2140 course at RMIT
+*ctree.cpp   COSC2140 Assingment 1     Miles Thomas  s3494949
+*
+*Implementation of a Binary Search Tree using unique pointers
+*
+* This file takes reference from intlist.cpp which was an example
+* by Paul Miller for the COSC2140 course at RMIT
+************************************************************************/
 
-*/
-//list converted to use std::string (not int)
-//#include <iostream> //just for testing purposes
 #include "ctree.h"
 
 std::stack<std::string> ctree::lines;
+bool ctree::found;
 
 void ctree::node::set_right(std::unique_ptr<ctree::node>&& newright)
 {
@@ -99,18 +102,24 @@ bool ctree::node::add(std::string newdata)
 
 bool ctree::node::find(std::string needle)
 {
+    //std::cout << data << std::endl;
     if(left)
     {
         left->find(needle);
     }
     if(data == needle)
-    {    
+    { 
+        std::cout << "found! " << data << found << std::endl;
+        found = true;
+        std::cout << found <<std::endl;
         return true;
     }
     if(right)
     {
         right->find(needle);
     }
+    found = false; 
+    
     return false;
 }
 
@@ -122,7 +131,7 @@ void  ctree::node::stack_line(void)
     {
         left->stack_line();
     }
-        lines.push(data);
+    lines.push(data);
     if(right)
     {
         right->stack_line();
@@ -136,11 +145,12 @@ void ctree::stack_line(void)
 
 std::string ctree::get_line(void)
 {
-    while(!lines.empty())
+    //std::string line;
+    while(lines.empty() == false)
     {
         std::string line = lines.top();
         lines.pop();
-        std::cout << "lines? " << line << std::endl;
+        //std::cout << "lines?" << line << "???" << std::endl;
         return line;
     }
     return "ENDOFTEXT";
@@ -160,6 +170,7 @@ bool ctree::add(std::string data)
     }
     return false;
 }
+
 
 
 
@@ -190,7 +201,30 @@ bool ctree::search(std::string needle)
 */
 bool ctree::find(std::string needle)
 {
-     return root->find(needle);
+    return(root->find(needle));
+    //if(root->find(needle) == "NOTAWORD")
+    if(found)
+    {
+        return true;
+    }
+    else
+    {    
+        std::cout << "root" << found << std::endl;
+        return false;
+    }
+    /*
+    if(found)
+    {
+        std::cout << "found2" << std::endl;
+        //return true;
+    }
+    else
+    {    
+        std::cout << "else" << std::endl;
+        return "NOTAWORD";
+    } */   
+}
+
      //node * current;
      //current = root.get();
      
@@ -204,7 +238,7 @@ bool ctree::find(std::string needle)
 
      return true;
      */
-}
+
 
 /*
 std::string ctree::get_line(int line_count)

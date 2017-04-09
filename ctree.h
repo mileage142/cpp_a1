@@ -1,5 +1,9 @@
-//list converted to use std::string (not int)
+/*************************************************************
+*ctree.h   COSC2140 Assingment 1     Miles Thomas  s3494949
+*
 
+//list converted to use std::string (not int)
+*/
 #include <memory>
 #include <iostream>
 #include<stack>
@@ -34,12 +38,11 @@ class ctree
     std::unique_ptr<node>root;
     int size;
     static std::stack<std::string> lines;
-    //std::stack<std::string> lines();
     public:
-    //static std::stack<std::string> lines;
+
+    static bool found;
     ctree(void) : root(nullptr), size(0) {}
     bool add(std::string);
-    //bool add_data(std::string);
     bool search(std::string);
     bool find(std::string);
     void stack_line(void);

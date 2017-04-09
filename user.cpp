@@ -410,6 +410,7 @@ std::set<std::string> text_set)
                     {    
                         if(*it ==  *beg)
                         {
+                            std::cout << *beg << std::endl;
                             if(word_count[*beg])
                             {
                                 word_count[*beg]++;
@@ -431,26 +432,20 @@ std::set<std::string> text_set)
 
 bool user::process_text(ctree dict_ctree, ctree text_ctree)
 {
-    //int line_count = 1;
-    std::string line = line;
-    std::cout << "process text!!!" << std::endl;
+    std::string line = "line";
     std::map <std::string, int> word_count;
-    //text_ctree.print_list();
-    //text_ctree.list_start();
-    //while(text_ctree.find(line_count) != "ENDOFTEXT")
-    //{
     text_ctree.stack_line();
     while(line != "ENDOFTEXT")
     {    
-        boost::tokenizer<> tok(text_ctree.get_line());
+        line = text_ctree.get_line();
+        boost::tokenizer<> tok(line);
         for(boost::tokenizer<>::iterator beg=tok.begin();
         beg!=tok.end();++beg)
         {
-            
-            std::cout << "still working1?" << std::endl;
+            //std::cout << "still working1?" << *beg << std::endl;
             if(dict_ctree.find(*beg))
             {
-                // std::cout << *beg << std::endl;
+                std::cout << *beg << std::endl;
                 if(word_count[*beg])
                 {
                     word_count[*beg]++;
@@ -459,14 +454,11 @@ bool user::process_text(ctree dict_ctree, ctree text_ctree)
                 {
                     word_count[*beg] = 1;
                 }    
-            }
-            if(*beg == "ENDOFTEXT")
-            {
-                line = "ENDOFTEXT";
+               // std::cout << line << std::endl;
             }
         }
     }    
-   std::cout << "still working?" << std::endl;
+    //std::cout << "still working?" << std::endl;
     this->count = word_count;
     return true;
 }
