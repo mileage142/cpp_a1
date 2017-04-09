@@ -91,7 +91,7 @@ bool options::choose_option(int ac, char** av)
         }
         if(vm["datastructure"].as< std::string>() == "custom_tree")
         {
-            /*user ctree_user;
+            user ctree_user;
 
             std::cout << "confirming ctree" << std::endl;
             ctree_user.process_text(
@@ -99,7 +99,7 @@ bool options::choose_option(int ac, char** av)
             ctree_user.open_ctree_text(vm["textfile"].as< std::string>())
             );
             ctree_user.output_to_file(vm["outputfile"].as< std::string>());           
- */
+ 
             return true;
         }
     

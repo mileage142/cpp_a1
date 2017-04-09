@@ -7,6 +7,8 @@
 //#include <iostream> //just for testing purposes
 #include "ctree.h"
 
+std::stack<std::string> ctree::lines;
+
 void ctree::node::set_right(std::unique_ptr<ctree::node>&& newright)
 {
     right = std::move(newright);
@@ -38,81 +40,140 @@ std::string ctree::node::get_data(void)
 {
     return data;
 }
-
-bool ctree::add(std::string data)
+/*
+bool ctree::node::add(std::string data)
 {
-    node * current;
+    //node * current;
     node * prev = nullptr;
     std::unique_ptr<ctree::node> newnode = std::make_unique<ctree::node>(data);
     if(head == nullptr)
     {
         head = std::make_unique<node>(data);
-        ctree->add_data(data);
+        this->add_data(data);
         return true;
     }
 }
+*/
 
-bool ctree::add_data(std::string data)
+bool ctree::node::add(std::string newdata)
 {
-    //get the pointer held by the unique_ptr
-    node * current;
-    node * prev = nullptr;
-    
-    current = head.get();
     
     //this is an alpha sort function    
-    if(current && current->data < data)
+    if(newdata < data)
     {
-        if(current->left)
+
+        if(left)
         {
-            return current->left->add_data(data)
+            return left->add(newdata);
         } 
         else
         {
-            newleft->set_left(std::move(head));
-            if(current->left)
+            left = std::make_unique<ctree::node>(newdata);
+            //std::cout << left->get_data() << std::endl;
+            if(left)
             {    
                 return true;
             }
             return false;
         }
-
-       // prev = current;
-       // current = current->get_right();
     }
     
     else
     {
-        if(current->right)
+        if(right)
         {
-            return current->right->add_data(data)
+            return right->add(newdata);
         } 
         else
         {
-            newleft->set_right(std::move(head));
-            if(current->right)
+            right = std::make_unique<ctree::node>(newdata);
+           // std::cout << right->get_data() << std::endl;
+            if(right)
             {    
                 return true;
             }
             return false;
         }
-
-       // prev = current;
-       // current = current->get_right();
     }
 } 
- 
+
+bool ctree::node::find(std::string needle)
+{
+    if(left)
+    {
+        left->find(needle);
+    }
+    if(data == needle)
+    {    
+        return true;
+    }
+    if(right)
+    {
+        right->find(needle);
+    }
+    return false;
+}
 
 
+void  ctree::node::stack_line(void)
+{
+    //std::stack<std::string> lines;
+    if(left)
+    {
+        left->stack_line();
+    }
+        lines.push(data);
+    if(right)
+    {
+        right->stack_line();
+    }
+}
+
+void ctree::stack_line(void)
+{
+    root->stack_line();
+}
+
+std::string ctree::get_line(void)
+{
+    while(!lines.empty())
+    {
+        std::string line = lines.top();
+        lines.pop();
+        std::cout << "lines? " << line << std::endl;
+        return line;
+    }
+    return "ENDOFTEXT";
+}
+
+bool ctree::add(std::string data)
+{
+    if(root)
+    {
+        return root->add(data);
+    }
+    root = std::make_unique<ctree::node>(data);
+    //std::cout << root->get_data() << std::endl;
+    if(root)
+    {
+        return true;
+    }
+    return false;
+}
+
+
+
+//TO DO!!!
+/*
 bool ctree::search(std::string needle)
 {
     node * current;
-    current = head.get();
+    current = root.get();
     //int word_count = 0;
 
     while(current != nullptr)
     {
-        if(current->get_data() == needle)
+        if(current->find(needle) == needle)
         {    
             current = current->get_right();
             return true;      
@@ -126,14 +187,15 @@ bool ctree::search(std::string needle)
     //std::cout << ": " << word_count << std::endl;
     return false;
 }
-
-bool ctree::print_list()
+*/
+bool ctree::find(std::string needle)
 {
-     node * current;
-     current = head.get();
+     return root->find(needle);
+     //node * current;
+     //current = root.get();
      
-     std::cout << "print_list" << std::endl;
 
+     /*
      while(current != nullptr)
      {
         std::cout << current->get_data() << std::endl;
@@ -141,9 +203,10 @@ bool ctree::print_list()
      }
 
      return true;
+     */
 }
 
-
+/*
 std::string ctree::get_line(int line_count)
 //Terrible and slow implementation but works
 //contains a lot of commented out debug strings
@@ -151,9 +214,11 @@ std::string ctree::get_line(int line_count)
     node * current;
     std::string line;
     int i = line_count;
+    
+    line = "ENDOFTEXT";
     //std::cout << "get_line" << i << std::endl;
     //std::map<std::string, int> count;
-    current = head.get();
+    current = root.get();
     
     while(i > 0)
     {
@@ -162,20 +227,21 @@ std::string ctree::get_line(int line_count)
         if(current == nullptr)
         {
             line = "ENDOFTEXT";
-            return line;
+            return current->find();
         }
         else           
         {
             line = current->get_data();
-            current = current->get_right();
+            current = find();
             i--;
         }
+
         //std::cout << "if" << std::endl;
      } 
      //std::cout << "post i " << i << std::endl;
      return line; 
 }
-
+*/
 /*
 bool ctree::list_start(void)
 //DEPRECIATED - don't think this is needed anymore

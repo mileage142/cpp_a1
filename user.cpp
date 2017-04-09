@@ -106,6 +106,33 @@ std::set<std::string> user::open_set_dict(std::string dict)
     return dict_set;
 }
 
+ctree user::open_ctree_dict(std::string dict)
+{   
+    ctree dict_ctree;
+    std::string word;
+    std::cout << "test open_ctree_dict" << std::endl;
+    std::ifstream dict_file;
+    dict_file.open (dict);
+    if(dict_file.is_open())
+    {
+        //int word_count = 0;
+        while(getline(dict_file, word))
+        {
+           //word = sorted_array[word_count]
+           //++word_count
+            dict_ctree.add(word);
+        }
+        dict_file.close();
+        //funtion to test dict ingestion
+
+    }
+    else
+    {    
+        std::cout << "Unable to open" << dict << std::endl;
+    }
+    std::cout << "dict done" << std::endl;
+    return dict_ctree;
+}
 
 ll user::open_clist_text(std::string text)
 {
@@ -203,6 +230,32 @@ std::set<std::string> user::open_set_text(std::string text)
    return text_set;
 }
 
+ctree user::open_ctree_text(std::string text)
+{
+    ctree text_ctree;
+    std::string line;
+    std::cout << "test open_ctree_text" << std::endl;
+    std::ifstream text_file;
+    text_file.open(text);
+    if(text_file.is_open())
+    {
+        while(getline(text_file, line))
+        {
+            text_ctree.add(line);
+        }
+        text_file.close();
+        //function to test text ingestion
+       // text_ctree.print();
+
+    }
+    else
+    {    
+        std::cout << "Unable to open" << text << std::endl;
+    }
+    std::cout << "text opened" << std::endl;
+    return text_ctree;
+}
+
 bool user::process_text(ll dict_clist, ll text_clist)
 {
     int line_count = 1;
@@ -238,7 +291,7 @@ bool user::process_text(ll dict_clist, ll text_clist)
 bool user::process_text(std::vector<std::string> dict_vector,
 std::vector<std::string> text_vector)
 {
-    int line_count = 1;
+    unsigned int line_count = 1;
     std::cout << "process text!!!" << std::endl;
     std::map <std::string, int> word_count;
     //text_clist.print_list();
@@ -281,7 +334,7 @@ std::vector<std::string> text_vector)
 bool user::process_text(std::list<std::string> dict_list,
 std::list<std::string> text_list)
 {
-    int line_count = 1;
+    unsigned int line_count = 1;
     std::cout << "process text!!!" << std::endl;
     std::map <std::string, int> word_count;
     //text_clist.print_list();
@@ -291,7 +344,7 @@ std::list<std::string> text_list)
     {
         //The two loops following are a convoluted and expensive way
         //to extract the poistion of the line in the list
-        int line_num = 1;
+        unsigned int line_num = 1;
         for(std::list<std::string>::iterator ln =
         text_list.begin(); ln != text_list.end(); ++ln, ++line_num)
         {
@@ -333,7 +386,7 @@ std::list<std::string> text_list)
 bool user::process_text(std::set<std::string> dict_set,
 std::set<std::string> text_set)
 {
-    int line_count = 1;
+    unsigned int line_count = 1;
     std::cout << "process text!!!" << std::endl;
     std::map <std::string, int> word_count;
     //text_cset.print_set();
@@ -341,7 +394,7 @@ std::set<std::string> text_set)
     //while(text_set[line_count] < text_set[text_set.size()])
     while(line_count < text_set.size())
     {
-        int line_num = 1;
+        unsigned int line_num = 1;
         for(std::set<std::string>::iterator ln =
         text_set.begin(); ln != text_set.end(); ++ln, ++line_num)
         {
@@ -375,6 +428,49 @@ std::set<std::string> text_set)
     this->count = word_count;
     return true;
 }
+
+bool user::process_text(ctree dict_ctree, ctree text_ctree)
+{
+    //int line_count = 1;
+    std::string line = line;
+    std::cout << "process text!!!" << std::endl;
+    std::map <std::string, int> word_count;
+    //text_ctree.print_list();
+    //text_ctree.list_start();
+    //while(text_ctree.find(line_count) != "ENDOFTEXT")
+    //{
+    text_ctree.stack_line();
+    while(line != "ENDOFTEXT")
+    {    
+        boost::tokenizer<> tok(text_ctree.get_line());
+        for(boost::tokenizer<>::iterator beg=tok.begin();
+        beg!=tok.end();++beg)
+        {
+            
+            std::cout << "still working1?" << std::endl;
+            if(dict_ctree.find(*beg))
+            {
+                // std::cout << *beg << std::endl;
+                if(word_count[*beg])
+                {
+                    word_count[*beg]++;
+                }
+                else
+                {
+                    word_count[*beg] = 1;
+                }    
+            }
+            if(*beg == "ENDOFTEXT")
+            {
+                line = "ENDOFTEXT";
+            }
+        }
+    }    
+   std::cout << "still working?" << std::endl;
+    this->count = word_count;
+    return true;
+}
+
 
 bool user::output_to_file(std::string output_file)
 {
