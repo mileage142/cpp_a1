@@ -10,7 +10,7 @@
 #include "ctree.h"
 
 std::stack<std::string> ctree::lines;
-bool ctree::found;
+bool ctree::node::found;
 
 void ctree::node::set_right(std::unique_ptr<ctree::node>&& newright)
 {
@@ -43,7 +43,13 @@ std::string ctree::node::get_data(void)
 {
     return data;
 }
+
+bool& ctree::node::get_found(void)
+{
+    return found;
+}
 /*
+ 
 bool ctree::node::add(std::string data)
 {
     //node * current;
@@ -109,9 +115,15 @@ bool ctree::node::find(std::string needle)
     }
     if(data == needle)
     { 
+        //this print function shows that things are working
+        //if only it got to the other function
         std::cout << "found! " << data << found << std::endl;
+        //this is an attempt at passing a static var
+        //in order to circimvent the issue
         found = true;
         std::cout << found <<std::endl;
+        //in an ideal world, this should be the only statment
+        //needed in this bit
         return true;
     }
     if(right)
@@ -123,6 +135,27 @@ bool ctree::node::find(std::string needle)
     return false;
 }
 
+bool ctree::find(std::string needle)
+{
+    root->find(needle);
+    //this accessor function always reads false
+    std::cout << "found: " << node::get_found() << std::endl;
+    //if(root->find(needle) == "NOTAWORD")
+    //as found always reads false, we never get here 
+    if(node::get_found())
+    {
+        std::cout << node::get_found() << std::endl;
+        return true;
+    }/*
+    if(found)
+    {
+        return true;
+    }*/
+    else
+    {    
+        return false;
+    }
+}
 
 void  ctree::node::stack_line(void)
 {
@@ -199,20 +232,24 @@ bool ctree::search(std::string needle)
     return false;
 }
 */
-bool ctree::find(std::string needle)
+/*bool ctree::find(std::string needle, bool )
 {
-    return(root->find(needle));
+    root->find(needle);
+    std::cout << node::get_found() << std::endl;
     //if(root->find(needle) == "NOTAWORD")
-    if(found)
+    if(node::get_found())
     {
+        std::cout << node::get_found() << std::endl;
         return true;
     }
     else
     {    
-        std::cout << "root" << found << std::endl;
+        std::cout << "root"  << std::endl;
         return false;
     }
-    /*
+}    
+    
+     *
     if(found)
     {
         std::cout << "found2" << std::endl;
@@ -223,7 +260,7 @@ bool ctree::find(std::string needle)
         std::cout << "else" << std::endl;
         return "NOTAWORD";
     } */   
-}
+
 
      //node * current;
      //current = root.get();

@@ -410,7 +410,7 @@ std::set<std::string> text_set)
                     {    
                         if(*it ==  *beg)
                         {
-                            std::cout << *beg << std::endl;
+            //                std::cout << *beg << std::endl;
                             if(word_count[*beg])
                             {
                                 word_count[*beg]++;

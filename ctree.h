@@ -16,6 +16,7 @@ class ctree
         std::string data;
         std::unique_ptr<node> right;
         std::unique_ptr<node> left;
+        static bool found;
         public:
         node(std::string newdata) : data(newdata), right(nullptr),
         left(nullptr){}
@@ -26,6 +27,7 @@ class ctree
         node * get_left(void);
         bool add(std::string);
         bool find(std::string);
+        static bool& get_found(void);
         std::string get_data(void);
         std::string get_line(void);
         void stack_line(void);
@@ -38,13 +40,14 @@ class ctree
     std::unique_ptr<node>root;
     int size;
     static std::stack<std::string> lines;
+    //static bool found;
     public:
 
-    static bool found;
     ctree(void) : root(nullptr), size(0) {}
     bool add(std::string);
     bool search(std::string);
     bool find(std::string);
+    //bool get_found(void);
     void stack_line(void);
     std::string get_line(void);
 };
