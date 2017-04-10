@@ -19,7 +19,7 @@ class options
     std::string text;
     public:
     options() : dict(), text() {}
- 
+
     po::variables_map vm;
 
     bool choose_option(int, char**);

@@ -49,7 +49,7 @@ bool& ctree::node::get_found(void)
     return found;
 }
 /*
- 
+
 bool ctree::node::add(std::string data)
 {
     //node * current;
@@ -66,85 +66,95 @@ bool ctree::node::add(std::string data)
 
 bool ctree::node::add(std::string newdata)
 {
-    
-    //this is an alpha sort function    
+
+    //this is an alpha sort function
     if(newdata < data)
     {
 
         if(left)
         {
             return left->add(newdata);
-        } 
+        }
         else
         {
             left = std::make_unique<ctree::node>(newdata);
             //std::cout << left->get_data() << std::endl;
             if(left)
-            {    
+            {
                 return true;
             }
             return false;
         }
     }
-    
+
     else
     {
         if(right)
         {
             return right->add(newdata);
-        } 
+        }
         else
         {
             right = std::make_unique<ctree::node>(newdata);
            // std::cout << right->get_data() << std::endl;
             if(right)
-            {    
+            {
                 return true;
             }
             return false;
         }
     }
-} 
+}
 
 bool ctree::node::find(std::string needle)
 {
+	//HACK: Change Made Here
     //std::cout << data << std::endl;
-    if(left)
-    {
-        left->find(needle);
-    }
-    if(data == needle)
-    { 
-        //this print function shows that things are working
-        //if only it got to the other function
-        std::cout << "found! " << data << found << std::endl;
-        //this is an attempt at passing a static var
-        //in order to circimvent the issue
-        found = true;
-        std::cout << found <<std::endl;
-        //in an ideal world, this should be the only statment
-        //needed in this bit
-        return true;
-    }
-    if(right)
-    {
-        right->find(needle);
-    }
-    found = false; 
-    
+
+	if (data == needle)
+	{
+		//this print function shows that things are working
+		//if only it got to the other function
+		//std::cout << "found! " << data << std::endl;
+
+		return true;
+	}
+	else
+	{
+		if (needle < data)
+		{
+			//Go Left
+			if (left != nullptr)
+			{
+				return left->find(needle);
+			}
+		}
+		else
+		{
+			//Go Right
+			if (right != nullptr)
+			{
+				return right->find(needle);
+			}
+		}
+	}
+
     return false;
 }
 
 bool ctree::find(std::string needle)
 {
-    root->find(needle);
+	//HACK: Change Made Here
+    return root->find(needle);
+
     //this accessor function always reads false
-    std::cout << "found: " << node::get_found() << std::endl;
+    //std::cout << "found: " << node::get_found() << std::endl;
+
     //if(root->find(needle) == "NOTAWORD")
-    //as found always reads false, we never get here 
+    //as found always reads false, we never get here
     if(node::get_found())
     {
-        std::cout << node::get_found() << std::endl;
+        //std::cout << node::get_found() << std::endl;
         return true;
     }/*
     if(found)
@@ -152,7 +162,7 @@ bool ctree::find(std::string needle)
         return true;
     }*/
     else
-    {    
+    {
         return false;
     }
 }
@@ -218,9 +228,9 @@ bool ctree::search(std::string needle)
     while(current != nullptr)
     {
         if(current->find(needle) == needle)
-        {    
+        {
             current = current->get_right();
-            return true;      
+            return true;
         }
         else
         {
@@ -243,12 +253,12 @@ bool ctree::search(std::string needle)
         return true;
     }
     else
-    {    
+    {
         std::cout << "root"  << std::endl;
         return false;
     }
-}    
-    
+}
+
      *
     if(found)
     {
@@ -256,15 +266,15 @@ bool ctree::search(std::string needle)
         //return true;
     }
     else
-    {    
+    {
         std::cout << "else" << std::endl;
         return "NOTAWORD";
-    } */   
+    } */
 
 
      //node * current;
      //current = root.get();
-     
+
 
      /*
      while(current != nullptr)
@@ -285,12 +295,12 @@ std::string ctree::get_line(int line_count)
     node * current;
     std::string line;
     int i = line_count;
-    
+
     line = "ENDOFTEXT";
     //std::cout << "get_line" << i << std::endl;
     //std::map<std::string, int> count;
     current = root.get();
-    
+
     while(i > 0)
     {
     // std::cout << current << std::endl;
@@ -300,7 +310,7 @@ std::string ctree::get_line(int line_count)
             line = "ENDOFTEXT";
             return current->find();
         }
-        else           
+        else
         {
             line = current->get_data();
             current = find();
@@ -308,9 +318,9 @@ std::string ctree::get_line(int line_count)
         }
 
         //std::cout << "if" << std::endl;
-     } 
+     }
      //std::cout << "post i " << i << std::endl;
-     return line; 
+     return line;
 }
 */
 /*
@@ -326,7 +336,7 @@ bool ctree::list_start(void)
 /*
 ctree::node* ctree::get_right_node(void)
 {
-   node * current; 
+   node * current;
     return current->get_right;
 }
 */

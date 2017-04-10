@@ -13,7 +13,7 @@ namespace po = boost::program_options;
 
 int main(int ac, char** av)
 {
-    
+
     options choice;
     choice.choose_option(ac, av);
 
@@ -24,10 +24,10 @@ int main(int ac, char** av)
 
 bool options::choose_option(int ac, char** av)
 {
-    //setup options for command line   
+    //setup options for command line
     po::options_description desc("allowed options");
     desc.add_options()
-    ("datastructure,s", po::value< std::string >(), 
+    ("datastructure,s", po::value< std::string >(),
     "Select data structure to use")
     ("dictionary,d", po::value<std::string>(), "Select dictionary file")
     ("textfile,t", po::value<std::string>(), "Select text file")
@@ -64,11 +64,11 @@ bool options::choose_option(int ac, char** av)
             vector_user.open_vector_text(vm["textfile"].
             as< std::string>()));
             vector_user.output_to_file(vm["outputfile"].
-            as< std::string>());           
+            as< std::string>());
             return true;
         }
         if(vm["datastructure"].as< std::string>() == "list")
-        { 
+        {
             user list_user;
 
             std::cout << "confirming list" << std::endl;
@@ -78,7 +78,7 @@ bool options::choose_option(int ac, char** av)
             list_user.open_list_text(vm["textfile"].
             as< std::string>()));
             list_user.output_to_file(vm["outputfile"].
-            as< std::string>());           
+            as< std::string>());
             return true;
         }
         if(vm["datastructure"].as< std::string>() == "set")
@@ -92,7 +92,7 @@ bool options::choose_option(int ac, char** av)
             set_user.open_set_text(vm["textfile"].
             as< std::string>()));
             set_user.output_to_file(vm["outputfile"].
-            as< std::string>());           
+            as< std::string>());
             return true;
         }
         if(vm["datastructure"].as< std::string>() == "custom_tree")
@@ -100,20 +100,22 @@ bool options::choose_option(int ac, char** av)
             user ctree_user;
 
             std::cout << "confirming ctree" << std::endl;
-            ctree_user.process_text(
+
+			ctree_user.process_text(
             ctree_user.open_ctree_dict(vm["dictionary"].
             as< std::string>()),
             ctree_user.open_ctree_text(vm["textfile"].
             as< std::string>()));
+
             ctree_user.output_to_file(vm["outputfile"].
-            as< std::string>());           
- 
+            as< std::string>());
+
             return true;
         }
     }
     else
     {
             return false;
-    }   
-    return true;   
-}    
+    }
+    return true;
+}

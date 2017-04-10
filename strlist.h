@@ -27,6 +27,7 @@ class linked_list
 
     std::unique_ptr<node>head;
     int size;
+
     public:
     linked_list(void) : head(nullptr), size(0) {}
     //node * get_head(void);
